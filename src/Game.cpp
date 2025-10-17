@@ -15,18 +15,53 @@ Game::~Game()
 
 bool Game::init()
 {
-
-  return true;
+	background.initialiseSprite(background_texture, "../Data/WhackaMole_Worksheet/background.png");
+	textInit();
+	current_state = GameState::MENU;
+	return true;
 }
 
 void Game::update(float dt)
 {
-
+	switch (current_state)
+	{
+		case GameState::MENU:
+			{
+				
+				break;
+			}
+		case GameState::INGAME:
+		{
+			break;
+		}
+		case GameState::PAUSE:
+		{
+			break;
+		}
+	}
 }
 
 void Game::render()
 {
-
+	switch (current_state)
+	{
+		case GameState::MENU:
+		{
+			window.draw(cc_title);
+			window.draw(press_enter);
+			break;
+		}
+		case GameState::INGAME:
+		{
+			window.draw(*background.getSprite());
+			break;
+		}
+		case GameState::PAUSE:
+		{
+			window.draw(paused);
+			break;
+		}
+	}
 }
 
 void Game::mouseClicked(sf::Event event)
@@ -37,9 +72,92 @@ void Game::mouseClicked(sf::Event event)
 
 }
 
-void Game::keyPressed(sf::Event event)
+void Game::keyPressed(sf::Event event, float dt)
 {
+	if (event.key.code == sf::Keyboard::M)
+	{
+		current_state = GameState::MENU;
+	}
+	
+	// escape key functionality
+	if (event.key.code == sf::Keyboard::Escape)
+	{
+		std::cout << "ran" << std::endl;
+		switch (current_state)
+		{
+			case GameState::MENU:
+			{
+				window.close();
+				break;
+			}
+			case GameState::INGAME:
+			{
+				current_state = GameState::PAUSE;
+				break;
+			}
+			case GameState::PAUSE:
+			{
+				current_state = GameState::INGAME;
+				break;
+			}
+			}
+	}
 
+	switch (current_state)
+	{
+	case GameState::MENU:
+	{
+		if (event.key.code == sf::Keyboard::Enter)
+		{
+			current_state = GameState::INGAME;
+		}
+		break;
+	}
+	case GameState::INGAME:
+	{
+	
+		break;
+	}
+	case GameState::PAUSE:
+	{
+		
+		break;
+	}
+	}
 }
 
 
+bool Game::textInit()
+{
+	if (!OSBold.loadFromFile("../Data/Fonts/OpenSans-Bold.ttf"))
+	{
+		std::cerr << "Failed to load font file\n";
+		return false;
+	}
+
+	cc_title.setFont(OSBold);
+	cc_title.setString("Critters Crossing");
+	cc_title.setCharacterSize(65);
+	cc_title.setFillColor(sf::Color::Blue);
+	cc_title.setOutlineColor(sf::Color::White);
+	cc_title.setPosition(
+		window.getSize().x / 2 - cc_title.getGlobalBounds().width / 2,
+		150);
+
+	press_enter.setFont(OSBold);
+	press_enter.setString("Press 'Enter' to start the game:");
+	press_enter.setCharacterSize(40);
+	press_enter.setFillColor(sf::Color::White);
+	press_enter.setPosition(
+		window.getSize().x / 2 - press_enter.getGlobalBounds().width / 2, 275);
+
+
+	paused.setFont(OSBold);
+	paused.setString("The Game is Paused");
+	paused.setCharacterSize(50);
+	paused.setFillColor(sf::Color::Cyan);
+	paused.setPosition(
+		window.getSize().x / 2 - paused.getGlobalBounds().width / 2, 150);
+
+	return true;
+}
