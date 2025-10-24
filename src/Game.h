@@ -24,6 +24,7 @@ class Game
   void keyPressed(sf::Event event, float dt);
 
   bool textInit();
+  bool arrayInit();
 
   GameState current_state;
 
@@ -31,6 +32,17 @@ class Game
   sf::RenderWindow& window;
   GameObject background;
   sf::Texture background_texture;
+
+  sf::Sprite* character;
+  sf::Sprite* passport;
+  //GameObject character;  // change to game object later
+  //GameObject passport;   // same
+
+  sf::Texture* animals = new sf::Texture[3];
+  sf::Texture* passports = new sf::Texture[3];
+
+  //std::vector<std::string> passport_textures; // initialize vector here and then just add strings into it in cpp file
+  //std::vector<std::string> animal_textures;
 
   sf::Font OSBold;
   sf::Text cc_title;

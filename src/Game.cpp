@@ -10,6 +10,10 @@ Game::Game(sf::RenderWindow& game_window)
 
 Game::~Game()
 {
+	delete character;
+	delete passport;
+	delete[] animals;
+	delete[] passports;
 
 }
 
@@ -17,6 +21,12 @@ bool Game::init()
 {
 	background.initialiseSprite(background_texture, "../Data/WhackaMole_Worksheet/background.png");
 	textInit();
+
+	character = new sf::Sprite;
+	passport = new sf::Sprite;
+	arrayInit();
+	passport->setTexture(passport_textures[1]);
+
 	current_state = GameState::MENU;
 	return true;
 }
@@ -54,6 +64,8 @@ void Game::render()
 		case GameState::INGAME:
 		{
 			window.draw(*background.getSprite());
+			window.draw(*character);
+			window.draw(*passport);
 			break;
 		}
 		case GameState::PAUSE:
@@ -160,4 +172,32 @@ bool Game::textInit()
 		window.getSize().x / 2 - paused.getGlobalBounds().width / 2, 150);
 
 	return true;
+}
+
+bool Game::arrayInit()
+{
+	std::vector<std::string>passport_texture = {
+		"../data/Critter_Crossing_Customs/elephant_passport.png",
+		"../data/Critter_Crossing_Customs/moose_passport.png",
+		"../data/Critter_Crossing_Customs/penguin_passport.png" };
+	std::vector<std::string> animal_texture = {
+		"../data/Critter_Crossing_Customs/elephant.png",
+		"../data/Critter_Crossing_Customs/moose.png",
+		"../data/Critter_Crossing_Customs/penguin.png"
+	};
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (!animals[i].loadFromFile(animal_texture[i]))
+		{
+			std::cerr << "Failed to load " << animal_texture[i] << std::endl;
+			return false;
+		}
+		if (!passports[i].loadFromFile(passport_texture[i]))
+		{
+			std::cerr << "Failed to load " << passport_texture[i] << std::endl;
+		}
+
+	}
+
 }
