@@ -25,7 +25,7 @@ bool Game::init()
 	character = new sf::Sprite;
 	passport = new sf::Sprite;
 	arrayInit();
-	passport->setTexture(passport_textures[1]);
+	
 
 	current_state = GameState::MENU;
 	return true;
@@ -199,5 +199,5 @@ bool Game::arrayInit()
 		}
 
 	}
-
+	//passport->setTexture(passports[1]);
 }

@@ -34,6 +34,7 @@ class Game
   sf::Texture background_texture;
 
   sf::Sprite* character;
+  //GameObject character;
   sf::Sprite* passport;
   //GameObject character;  // change to game object later
   //GameObject passport;   // same
