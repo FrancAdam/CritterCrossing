@@ -18,6 +18,8 @@ bool Game::init()
 	background.backgroundInit();
 	textInit();
 	animal.initAnimalTextures();
+	passport.initPassportTextures();
+
 
 	current_state = GameState::MENU;
 	return true;
@@ -57,7 +59,7 @@ void Game::render()
 		{
 			background.render(window);
 			animal.render(window);
-
+			passport.render(window);
 
 			break;
 		}
@@ -120,7 +122,12 @@ void Game::keyPressed(sf::Event event, float dt)
 	}
 	case GameState::INGAME:
 	{
-	
+		if (event.key.code == sf::Keyboard::C)
+		{
+			animal.changeAnimal();
+			passport.changePassport();
+			std::cout << "ran" << std::endl;
+		}
 		break;
 	}
 	case GameState::PAUSE:
@@ -169,32 +176,3 @@ bool Game::textInit()
 
 
 
-
-//bool Game::arrayInit()
-//{
-//	std::vector<std::string>passport_texture = {
-//		"../data/Critter_Crossing_Customs/elephant_passport.png",
-//		"../data/Critter_Crossing_Customs/moose_passport.png",
-//		"../data/Critter_Crossing_Customs/penguin_passport.png" };
-//	std::vector<std::string> animal_texture = {
-//		"../data/Critter_Crossing_Customs/elephant.png",
-//		"../data/Critter_Crossing_Customs/moose.png",
-//		"../data/Critter_Crossing_Customs/penguin.png"
-//	};
-//
-//	for (int i = 0; i < 3; i++)
-//	{
-//		if (!animals[i].loadFromFile(animal_texture[i]))
-//		{
-//			std::cerr << "Failed to load " << animal_texture[i] << std::endl;
-//			return false;
-//		}
-//		if (!passports[i].loadFromFile(passport_texture[i]))
-//		{
-//			std::cerr << "Failed to load " << passport_texture[i] << std::endl;
-//			return false;
-//		}
-//
-//	}
-//	//passport->setTexture(passports[1]);
-//}

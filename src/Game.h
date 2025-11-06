@@ -37,6 +37,7 @@ class Game
   UI background;
 
   Animal animal;
+  Passport passport;
 
 
 

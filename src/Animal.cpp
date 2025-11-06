@@ -3,7 +3,7 @@
 
 bool Animal::initAnimalTextures()
 {
-	std::vector<std::string> animal_texture_location = {
+	animal_texture_location = {
 				"../data/Critter Crossing Customs/elephant.png",
 				"../data/Critter Crossing Customs/moose.png",
 				"../data/Critter Crossing Customs/penguin.png"
@@ -18,7 +18,10 @@ bool Animal::initAnimalTextures()
 		}
 	}
 }
-void Animal::changeAnimal(int number)
+void Animal::changeAnimal()
 {
-	sprite->setTexture(animal_textures[number]);
+	int max_animals = animal_texture_location.size();
+	int random_index = getRandInt(0, max_animals - 1);
+	std::cout << random_index << std::endl;
+	sprite->setTexture(animal_textures[random_index]);
 }
