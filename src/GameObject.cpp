@@ -29,6 +29,11 @@ bool GameObject::initialiseSprite(sf::Texture& texture, std::string filename)
     return true;
 }
 
+void GameObject::render(sf::RenderWindow& window)
+{
+    window.draw(*sprite);
+}
+
 
 sf::Sprite* GameObject::getSprite()
 {

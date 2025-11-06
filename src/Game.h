@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
+#include "Animal.h"
+#include "Passport.h"
+#include "UI.h"
 
 enum class GameState
 {
@@ -24,22 +27,19 @@ class Game
   void keyPressed(sf::Event event, float dt);
 
   bool textInit();
-  bool arrayInit();
+  //bool arrayInit();
 
   GameState current_state;
 
  private:
   sf::RenderWindow& window;
-  GameObject background;
-  sf::Texture background_texture;
 
-  sf::Sprite* character;
-  //GameObject character;
-  sf::Sprite* passport;
-  //GameObject character;  // change to game object later
-  //GameObject passport;   // same
+  UI background;
 
-  sf::Texture* animals = new sf::Texture[3];
+  Animal animal;
+
+
+
   sf::Texture* passports = new sf::Texture[3];
 
   //std::vector<std::string> passport_textures; // initialize vector here and then just add strings into it in cpp file

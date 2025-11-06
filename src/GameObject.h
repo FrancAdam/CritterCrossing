@@ -12,6 +12,9 @@ public:
     ~GameObject();
     void init();
     bool initialiseSprite(sf::Texture& texture, std::string filename);
+
+    void render(sf::RenderWindow& window);
+
     sf::Sprite* getSprite();
     //bool checkCollision(GameObject& other);
 

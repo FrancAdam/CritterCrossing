@@ -2,7 +2,9 @@
 #define PASSPORT_H
 
 #include <SFML/Graphics.hpp>
-class Passport
+#include "GameObject.h"
+
+class Passport : public GameObject
 {
 };
 
