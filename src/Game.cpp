@@ -10,10 +10,10 @@ Game::Game(sf::RenderWindow& game_window)
 
 Game::~Game()
 {
-	delete character;
-	delete passport;
-	delete[] animals;
-	delete[] passports;
+	//delete character;
+	//delete passport;
+	//delete[] animals;
+	//delete[] passports;
 
 }
 
