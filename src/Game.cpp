@@ -128,6 +128,10 @@ void Game::keyPressed(sf::Event event, float dt)
 			passport.changePassport();
 			std::cout << "ran" << std::endl;
 		}
+		//if (event.key.code == sf::Keyboard::P)
+		//{
+		//	passport.coutVector(passport.passport_texture_location);
+		//}
 		break;
 	}
 	case GameState::PAUSE:

@@ -1,5 +1,9 @@
 #include "GameObject.h"
 #include <iostream>
+using std::cout;
+using std::string;
+using std::endl;
+using std::cerr;
 
 GameObject::GameObject() : visible(true)
 {
@@ -17,11 +21,11 @@ GameObject::~GameObject()
 
 void GameObject::init() {}
 
-bool GameObject::initialiseSprite(sf::Texture& texture, std::string filename)
+bool GameObject::initialiseSprite(sf::Texture& texture, string filename)
 {
     if (!texture.loadFromFile(filename))
     {
-        std::cerr << "Failed to load " << filename << std::endl;
+        cerr << "Failed to load " << filename << endl;
         return false;
     }
 
@@ -29,22 +33,38 @@ bool GameObject::initialiseSprite(sf::Texture& texture, std::string filename)
     return true;
 }
 
+bool GameObject::initTextures(std::vector < sf::Texture>& texture_vector, std::vector<string> texture_location_vector)
+{
+    int texture_size = texture_vector.size();
+    for (int i = 0; i < texture_size; i++)
+    {
+        if (!texture_vector[i].loadFromFile(texture_location_vector[i]))
+        {
+            std::cerr << "Failed to load " << texture_location_vector[i] << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
 void GameObject::render(sf::RenderWindow& window)
 {
     window.draw(*sprite);
 }
 
 
-sf::Sprite* GameObject::getSprite()
+sf::Sprite* GameObject::getSprite() //returns sprite, if sprite doens't exist, prints error message
 {
     if (!sprite)
     {
-        std::cerr << "Warning: sprite is null\n";
+        cerr << "Warning: sprite is null\n";
     }
     return sprite;
 }
 
-
+// getter and setter visibility boolean functions
 void GameObject::setVisible(bool visibility)
 {
     visible = visibility;
@@ -56,11 +76,20 @@ bool GameObject::getVisible()
 }
 
 
-
+// number rnadomiser
 int GameObject::getRandInt(int min, int max)
 {
     return rand() % (max - min + 1) + min;
 }
+
+void GameObject::coutVector(std::vector<string>& vector)
+{
+    for (int i = 0; i < vector.size(); i++)
+    {
+        std::cout << vector[i] << std::endl;
+    }
+}
+
 
 //bool GameObject::checkCollision(GameObject& other)
 //{

@@ -3,8 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 
-
-
 class GameObject
 {
 public:
@@ -12,6 +10,8 @@ public:
     ~GameObject();
     void init();
     bool initialiseSprite(sf::Texture& texture, std::string filename);
+
+    bool initTextures(std::vector<sf::Texture>& texture_vector, std::vector<std::string> texture_location_vector);
 
     void render(sf::RenderWindow& window);
 
@@ -24,7 +24,8 @@ public:
 
     int getRandInt(int min, int max);
 
-
+    // debug
+    void coutVector(std::vector<std::string>& vector);
 
 protected:
     sf::Sprite* sprite = nullptr;
@@ -32,4 +33,4 @@ protected:
 
 };
 
-#endif // SPACEINVADERS_GAME_H
+#endif 

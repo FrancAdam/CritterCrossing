@@ -1,6 +1,10 @@
 #include "Animal.h"
 #include <iostream>
 
+Animal::~Animal()
+{
+}
+
 bool Animal::initAnimalTextures()
 {
 	animal_texture_location = {
@@ -8,15 +12,10 @@ bool Animal::initAnimalTextures()
 				"../data/Critter Crossing Customs/moose.png",
 				"../data/Critter Crossing Customs/penguin.png"
 			};
-		
-	for (int i = 0; i < 3; i++)
-	{
-		if (!animal_textures[i].loadFromFile(animal_texture_location[i]))
-		{
-			std::cerr << "Failed to load " << animal_texture_location[i] << std::endl;
-			return false;
-		}
-	}
+	animal_textures.resize(animal_texture_location.size());
+
+	initTextures(animal_textures, animal_texture_location);
+	return true;
 }
 void Animal::changeAnimal()
 {

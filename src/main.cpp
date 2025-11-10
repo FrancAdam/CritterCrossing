@@ -1,10 +1,12 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#define _CRTDBG_MAP_ALLOC
 
 
 int main()
 {
+
   std::cout << "You should see a window that opens as well as this writing to console..."
             << std::endl;
 
@@ -57,5 +59,7 @@ int main()
     window.display();
   }
 
+  _CrtDumpMemoryLeaks();
   return 0;
+
 }

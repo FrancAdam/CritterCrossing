@@ -7,10 +7,12 @@
 class Passport : public GameObject
 {
 public:
+	~Passport();
 	bool initPassportTextures();
 	void changePassport();
 private:
-	sf::Texture* passport_textures = new sf::Texture[3];
+	//sf::Texture* passport_textures = new sf::Texture[3];
+	std::vector<sf::Texture> passport_textures;
 	std::vector<std::string> passport_texture_location;
 };
 

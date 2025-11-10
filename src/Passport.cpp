@@ -1,22 +1,21 @@
 #include "Passport.h"
 #include <iostream>
 
+
+Passport::~Passport()
+{
+}
+
 bool Passport::initPassportTextures()
 {
 	passport_texture_location = {
 			"../data/Critter Crossing Customs/elephant passport.png",
 			"../data/Critter Crossing Customs/moose passport.png",
 			"../data/Critter Crossing Customs/penguin passport.png" };
+	passport_textures.resize(passport_texture_location.size());
 
-
-	for (int i = 0; i < 3; i++)
-	{
-		if (!passport_textures[i].loadFromFile(passport_texture_location[i]))
-		{
-			std::cerr << "Failed to load " << passport_texture_location[i] << std::endl;
-			return false;
-		}
-	}
+	initTextures(passport_textures, passport_texture_location);
+	return true;
 }
 void Passport::changePassport()
 {
@@ -25,3 +24,5 @@ void Passport::changePassport()
 	std::cout << random_index << std::endl;
 	sprite->setTexture(passport_textures[random_index]);
 }
+
+
