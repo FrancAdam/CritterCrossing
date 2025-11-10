@@ -12,7 +12,7 @@ public:
 	void changePassport();
 private:
 	//sf::Texture* passport_textures = new sf::Texture[3];
-	std::vector<sf::Texture> passport_textures;
+	std::vector<std::unique_ptr<sf::Texture>> passport_textures;
 	std::vector<std::string> passport_texture_location;
 };
 

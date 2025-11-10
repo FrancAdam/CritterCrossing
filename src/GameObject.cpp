@@ -7,16 +7,7 @@ using std::cerr;
 
 GameObject::GameObject() : visible(true)
 {
-    sprite = new sf::Sprite();
-}
-
-GameObject::~GameObject()
-{
-    if (sprite != nullptr)
-    {
-        delete sprite;
-        sprite = nullptr;
-    }
+    sprite = std::make_unique<sf::Sprite>();
 }
 
 void GameObject::init() {}
@@ -33,16 +24,21 @@ bool GameObject::initialiseSprite(sf::Texture& texture, string filename)
     return true;
 }
 
-bool GameObject::initTextures(std::vector < sf::Texture>& texture_vector, std::vector<string> texture_location_vector)
+bool GameObject::initTextures(std::vector<std::unique_ptr<sf::Texture>>& texture_vector,
+    const std::vector<std::string>& texture_location_vector)
 {
-    int texture_size = texture_vector.size();
+    int texture_size = texture_location_vector.size();
+    texture_vector.resize(texture_size);
+
     for (int i = 0; i < texture_size; i++)
     {
-        if (!texture_vector[i].loadFromFile(texture_location_vector[i]))
+        auto tex = std::make_unique<sf::Texture>();
+        if (!tex->loadFromFile(texture_location_vector[i]))
         {
             std::cerr << "Failed to load " << texture_location_vector[i] << std::endl;
             return false;
         }
+        texture_vector[i] = std::move(tex);
     }
     return true;
 }
@@ -60,8 +56,9 @@ sf::Sprite* GameObject::getSprite() //returns sprite, if sprite doens't exist, p
     if (!sprite)
     {
         cerr << "Warning: sprite is null\n";
+        return nullptr;
     }
-    return sprite;
+    return sprite.get();
 }
 
 // getter and setter visibility boolean functions

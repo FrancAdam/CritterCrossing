@@ -7,11 +7,12 @@ class GameObject
 {
 public:
     GameObject();
-    ~GameObject();
+    ~GameObject() = default;
     void init();
     bool initialiseSprite(sf::Texture& texture, std::string filename);
 
-    bool initTextures(std::vector<sf::Texture>& texture_vector, std::vector<std::string> texture_location_vector);
+    bool initTextures(std::vector<std::unique_ptr<sf::Texture>>& texture_vector,
+        const std::vector<std::string>& texture_location_vector);
 
     void render(sf::RenderWindow& window);
 
@@ -28,7 +29,7 @@ public:
     void coutVector(std::vector<std::string>& vector);
 
 protected:
-    sf::Sprite* sprite = nullptr;
+    std::unique_ptr<sf::Sprite> sprite;
     bool visible = true;
 
 };

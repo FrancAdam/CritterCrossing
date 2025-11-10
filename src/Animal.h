@@ -12,7 +12,7 @@ public:
 	void changeAnimal();
 private:
 	//sf::Texture* animal_textures = new sf::Texture[3];
-	std::vector<sf::Texture> animal_textures;
+	std::vector<std::unique_ptr<sf::Texture>> animal_textures;
 	std::vector<std::string> animal_texture_location;
 };
 
