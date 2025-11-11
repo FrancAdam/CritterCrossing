@@ -25,10 +25,12 @@ class Game
   bool init();
   void update(float dt);
   void render();
-  void mouseClicked(sf::Event event);
+  void mouseButtonPressed(sf::Event event);
+  void mouseButtonReleased(sf::Event event);
   void keyPressed(sf::Event event, float dt);
   void newAnimal();
   void checkCorrect();
+  void dragSprite(sf::Sprite* sprite);
 
   bool textInit();
   //bool arrayInit();
@@ -42,6 +44,11 @@ class Game
   bool passport_rejected;
   bool should_accept;
   int lives = MAX_LIVES;
+  bool passport_dragged = false;
+  bool accept_dragged = false;
+  bool reject_dragged = false;
+
+  sf::Vector2f drag_offset;
 
   UI background;
 
@@ -50,7 +57,9 @@ class Game
   Button reject_button;
   Button accept_button;
 
-  sf::Texture* passports = new sf::Texture[3];
+  //sf::Sprite* dragged = nullptr;
+
+
 
   sf::Font OSBold;
   sf::Text cc_title;

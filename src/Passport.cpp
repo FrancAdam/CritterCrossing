@@ -30,6 +30,7 @@ void Passport::changePassport(int random_index)
 	sprite->setPosition(200, 200);
 }
 
+
 int Passport::getPassportSize()
 {
 	return passport_texture_location.size();

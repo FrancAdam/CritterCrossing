@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow& game_window)
 
 Game::~Game()
 {
-
+	//delete passport_dragged;
 }
 
 bool Game::init() // all init functions
@@ -39,6 +39,19 @@ void Game::update(float dt)
 			}
 		case GameState::INGAME:
 		{
+			if (passport_dragged)
+			{
+				dragSprite(passport.getSprite());
+			}
+			else if (accept_dragged)
+			{
+				dragSprite(accept_button.getSprite());
+			}
+			else if (reject_dragged)
+			{
+				dragSprite(reject_button.getSprite());
+			}
+
 			break;
 		}
 		case GameState::PAUSE:
@@ -76,12 +89,46 @@ void Game::render()
 	}
 }
 
-void Game::mouseClicked(sf::Event event)
+void Game::mouseButtonPressed(sf::Event event)
 {
-  //get the click position
-  sf::Vector2i click = sf::Mouse::getPosition(window);
+	if (event.mouseButton.button == sf::Mouse::Left)
+	{
+		//get the click position
+		sf::Vector2i click = sf::Mouse::getPosition(window);
+		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);
+
+		if (passport.getSprite()->getGlobalBounds().contains(clickf))
+		{
+			drag_offset = passport.getSprite()->getPosition() - clickf;
+			passport_dragged = true;
+		}
+		if (accept_button.getSprite()->getGlobalBounds().contains(clickf))
+		{
+			drag_offset = accept_button.getSprite()->getPosition() - clickf;
+			accept_dragged = true;
+		}
+		if (reject_button.getSprite()->getGlobalBounds().contains(clickf))
+		{
+			drag_offset = reject_button.getSprite()->getPosition() - clickf;
+			reject_dragged = true;
+		}
 
 
+	}
+
+
+}
+void Game::mouseButtonReleased(sf::Event event)
+{
+	if (event.mouseButton.button == sf::Mouse::Left)
+	{
+		passport_dragged = false;
+		accept_dragged = false;
+		reject_dragged = false;
+		accept_button.acceptReset();
+		reject_button.rejectReset();
+	}
+	
 }
 
 void Game::keyPressed(sf::Event event, float dt)
@@ -182,6 +229,18 @@ void Game::checkCorrect()
 	{
 		cout << "FALSE remaining live: " << lives<<  endl;
 		lives -= 1;
+	}
+}
+
+void Game::dragSprite(sf::Sprite* sprite)
+{
+	if (sprite != nullptr)
+	{
+		sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+		sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+
+		sf::Vector2f drag_position = mouse_positionf + drag_offset; // dragoffset? / or center all origins
+		sprite->setPosition(drag_position.x, drag_position.y);
 	}
 }
 

@@ -10,6 +10,8 @@ class Button : public GameObject
 public:
 	void acceptButton();
 	void rejectButton();
+	void acceptReset();
+	void rejectReset();
 
 private:
 	sf::Texture accept_button_texture;

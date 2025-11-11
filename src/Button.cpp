@@ -17,3 +17,12 @@ void Button::rejectButton()
 	sprite->setPosition(850, 625);
 }
 
+void Button::acceptReset()
+{
+	sprite->setPosition(850, 500);
+}
+
+void Button::rejectReset()
+{
+	sprite->setPosition(850, 625);
+}
