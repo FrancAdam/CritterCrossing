@@ -51,6 +51,8 @@ class Game
   sf::Vector2f drag_offset;
 
   UI background;
+  UI accept_stamp;
+  UI reject_stamp;
 
   Animal animal;
   Passport passport;

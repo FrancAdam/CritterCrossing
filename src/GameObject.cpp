@@ -51,7 +51,10 @@ void GameObject::centerOrigin()
 
 void GameObject::render(sf::RenderWindow& window)
 {
-    window.draw(*sprite);
+    if (getVisible())
+    {
+        window.draw(*sprite);
+    }
 }
 
 

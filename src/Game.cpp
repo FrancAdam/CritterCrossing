@@ -23,6 +23,8 @@ bool Game::init() // all init functions
 	passport.initPassportTextures();
 	accept_button.acceptButton();
 	reject_button.rejectButton();
+	accept_stamp.aStampInit();
+	reject_stamp.rStampInit();
 
 	current_state = GameState::MENU;
 	return true;
@@ -51,7 +53,7 @@ void Game::update(float dt)
 			{
 				dragSprite(reject_button.getSprite());
 			}
-
+			accept_stamp.updateStamps(passport.getPosition());
 			break;
 		}
 		case GameState::PAUSE:
@@ -73,11 +75,14 @@ void Game::render()
 		}
 		case GameState::INGAME:
 		{
+
 			background.render(window);
 			animal.render(window);
 			passport.render(window);
 			accept_button.render(window);
 			reject_button.render(window);
+			accept_stamp.render(window);
+			reject_stamp.render(window);
 
 			break;
 		}
@@ -186,6 +191,10 @@ void Game::keyPressed(sf::Event event, float dt)
 		if (event.key.code == sf::Keyboard::P)
 		{
 			checkCorrect();
+		}
+		if (event.key.code == sf::Keyboard::O)
+		{
+			accept_stamp.setVisible(true);
 		}
 		break;
 	}

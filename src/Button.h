@@ -1,6 +1,6 @@
 #ifndef BUTTON_H
 #define BUTTON_H
-#define BUTTON_SCALE 1
+#define BUTTON_SCALE 0.9
 
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"

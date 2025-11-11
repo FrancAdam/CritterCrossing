@@ -15,7 +15,7 @@ public:
         const std::vector<std::string>& texture_location_vector);
 
     void centerOrigin();
-    void render(sf::RenderWindow& window);
+    virtual void render(sf::RenderWindow& window);
 
     sf::Sprite* getSprite();
     //bool checkCollision(GameObject& other);
