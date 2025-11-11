@@ -12,20 +12,25 @@ bool Animal::initAnimalTextures()
 				"../data/Critter Crossing Customs/moose.png",
 				"../data/Critter Crossing Customs/penguin.png"};
 
-	animal_textures.resize(animal_texture_location.size());
-
 	initTextures(animal_textures, animal_texture_location);
-	sprite->scale(1, 1);
-	sprite->setPosition(100, 500);
-	//sprite->setOrigin(getSprite()->getGlobalBounds().width / 2, getSprite()->getGlobalBounds().height / 2); 
+	
+
 	return true;
 }
-void Animal::changeAnimal()
+void Animal::changeAnimal(int random_index)
 {
 	int max_animals = animal_texture_location.size();
-	int random_index = getRandInt(0, max_animals - 1);
+	//int random_index = getRandInt(0, max_animals - 1);
 	std::cout << random_index << std::endl;
-	sprite->setTexture(*animal_textures[random_index]);
+	sprite->setTexture(*animal_textures[random_index], true);
+	sprite->setScale(ANIMAL_SCALE, ANIMAL_SCALE);
+	centerOrigin();
+	sprite->setPosition(200, 540);
+}
+
+int Animal::getAnimalSize()
+{
+	return animal_texture_location.size();
 }
 
 //void Animal::changeAnimal()

@@ -1,5 +1,6 @@
 #ifndef ANIMAL_H
 #define ANIMAL_H
+#define ANIMAL_SCALE 1.2
 
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
@@ -9,7 +10,9 @@ class Animal : public GameObject
 public:
 	~Animal();
 	bool initAnimalTextures();
-	void changeAnimal();
+	void changeAnimal(int random_index);
+	int getAnimalSize();
+
 private:
 	//sf::Texture* animal_textures = new sf::Texture[3];
 	std::vector<std::unique_ptr<sf::Texture>> animal_textures;

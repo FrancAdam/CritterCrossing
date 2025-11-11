@@ -1,8 +1,8 @@
 #include "GameObject.h"
 #include <iostream>
 using std::cout;
-using std::string;
 using std::endl;
+using std::string;
 using std::cerr;
 
 GameObject::GameObject() : visible(true)
@@ -43,6 +43,10 @@ bool GameObject::initTextures(std::vector<std::unique_ptr<sf::Texture>>& texture
     return true;
 }
 
+void GameObject::centerOrigin()
+{
+    sprite->setOrigin(sprite->getLocalBounds().width / 2, sprite->getLocalBounds().height / 2);
+}
 
 
 void GameObject::render(sf::RenderWindow& window)

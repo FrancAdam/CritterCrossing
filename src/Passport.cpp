@@ -12,20 +12,26 @@ bool Passport::initPassportTextures()
 			"../data/Critter Crossing Customs/moose passport.png",
 			"../data/Critter Crossing Customs/penguin passport.png" };
 
-	passport_textures.resize(passport_texture_location.size());
-
 	initTextures(passport_textures, passport_texture_location);
-	sprite->scale(0.5, 0.5);
-	sprite->setPosition(600, 300);
+
+	sprite->scale(PASSPORT_SCALE, PASSPORT_SCALE);
+	centerOrigin();
+
 	return true;
 }
-void Passport::changePassport()
+void Passport::changePassport(int random_index)
 {
 	int max_passports = passport_texture_location.size();
-	int random_index = getRandInt(0, max_passports - 1);
+	//int random_index = getRandInt(0, max_passports - 1);
 	std::cout << random_index << std::endl;
 	sprite->setTexture(*passport_textures[random_index]);
 
+	centerOrigin();
+	sprite->setPosition(200, 200);
 }
 
+int Passport::getPassportSize()
+{
+	return passport_texture_location.size();
+}
 

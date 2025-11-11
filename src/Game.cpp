@@ -1,6 +1,8 @@
 
 #include "Game.h"
 #include <iostream>
+using std::cout;
+using std::endl;
 
 Game::Game(sf::RenderWindow& game_window)
   : window(game_window)
@@ -13,13 +15,14 @@ Game::~Game()
 
 }
 
-bool Game::init()
+bool Game::init() // all init functions
 {
 	background.backgroundInit();
 	textInit();
 	animal.initAnimalTextures();
 	passport.initPassportTextures();
-
+	accept_button.acceptButton();
+	reject_button.rejectButton();
 
 	current_state = GameState::MENU;
 	return true;
@@ -47,7 +50,7 @@ void Game::update(float dt)
 
 void Game::render()
 {
-	switch (current_state)
+	switch (current_state) //state machine
 	{
 		case GameState::MENU:
 		{
@@ -60,6 +63,8 @@ void Game::render()
 			background.render(window);
 			animal.render(window);
 			passport.render(window);
+			accept_button.render(window);
+			reject_button.render(window);
 
 			break;
 		}
@@ -89,7 +94,7 @@ void Game::keyPressed(sf::Event event, float dt)
 	// escape key functionality
 	if (event.key.code == sf::Keyboard::Escape)
 	{
-		std::cout << "ran" << std::endl;
+		cout << "ran" << endl;
 		switch (current_state)
 		{
 			case GameState::MENU:
@@ -117,6 +122,10 @@ void Game::keyPressed(sf::Event event, float dt)
 		if (event.key.code == sf::Keyboard::Enter)
 		{
 			current_state = GameState::INGAME;
+			newAnimal();
+			lives = MAX_LIVES; //consider adding gameReset() function
+
+
 		}
 		break;
 	}
@@ -124,14 +133,13 @@ void Game::keyPressed(sf::Event event, float dt)
 	{
 		if (event.key.code == sf::Keyboard::C)
 		{
-			animal.changeAnimal();
-			passport.changePassport();
-			std::cout << "ran" << std::endl;
+			newAnimal();
+			cout << "ran newAnimal()" << endl;
 		}
-		//if (event.key.code == sf::Keyboard::P)
-		//{
-		//	passport.coutVector(passport.passport_texture_location);
-		//}
+		if (event.key.code == sf::Keyboard::P)
+		{
+			checkCorrect();
+		}
 		break;
 	}
 	case GameState::PAUSE:
@@ -142,6 +150,40 @@ void Game::keyPressed(sf::Event event, float dt)
 	}
 }
 
+void Game::newAnimal()
+{
+	passport_accepted = false;
+	passport_rejected = false;
+
+	int animal_index = animal.getRandInt(0, animal.getAnimalSize() - 1);
+	int passport_index = passport.getRandInt(0, passport.getPassportSize() - 1);
+
+	if (animal_index == passport_index)
+	{
+		should_accept = true;
+	}
+	else
+	{
+		should_accept = false;
+	}
+
+	animal.changeAnimal(animal_index);
+
+	passport.changePassport(passport_index);
+}
+
+void Game::checkCorrect()
+{
+	if (should_accept == true && passport_accepted == true)
+	{
+		cout << "CORRECT" << endl;
+	}
+	else
+	{
+		cout << "FALSE remaining live: " << lives<<  endl;
+		lives -= 1;
+	}
+}
 
 bool Game::textInit()
 {

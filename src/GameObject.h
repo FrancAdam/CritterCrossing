@@ -14,6 +14,7 @@ public:
     bool initTextures(std::vector<std::unique_ptr<sf::Texture>>& texture_vector,
         const std::vector<std::string>& texture_location_vector);
 
+    void centerOrigin();
     void render(sf::RenderWindow& window);
 
     sf::Sprite* getSprite();
