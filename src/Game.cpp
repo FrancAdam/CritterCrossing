@@ -89,7 +89,19 @@ void Game::render()
 		}
 		case GameState::PAUSE:
 		{
+			background.render(window);
+			animal.render(window);
+			passport.render(window);
+			accept_button.render(window);
+			reject_button.render(window);
+			accept_stamp.render(window);
+			reject_stamp.render(window);
+			window.draw(overlay);
 			window.draw(paused);
+			break;
+		}
+		case GameState::SCORE:
+		{
 			break;
 		}
 	}
@@ -271,6 +283,10 @@ void Game::checkCorrect()
 		cout << "FALSE remaining live: " << lives<<  endl;
 		lives -= 1;
 	}
+	if (lives <= 0)
+	{
+		current_state = GameState::SCORE;
+	}
 	newAnimal();
 }
 
@@ -319,6 +335,9 @@ bool Game::textInit()
 	paused.setFillColor(sf::Color::Cyan);
 	paused.setPosition(
 		window.getSize().x / 2 - paused.getGlobalBounds().width / 2, 150);
+
+	overlay.setSize(sf::Vector2f(window.getSize()));
+	overlay.setFillColor(sf::Color(100, 100, 100, 150));
 
 	return true;
 }

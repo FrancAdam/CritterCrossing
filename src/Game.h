@@ -13,7 +13,8 @@ enum class GameState
 {
 	MENU,
 	INGAME,
-	PAUSE
+	PAUSE,
+	SCORE
 };
 
 
@@ -54,6 +55,8 @@ class Game
   UI background;
   UI accept_stamp;
   UI reject_stamp;
+
+  sf::RectangleShape overlay;
 
   Animal animal;
   Passport passport;
