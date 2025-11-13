@@ -32,6 +32,7 @@ class Game
   void checkCorrect();
   void dragSprite(sf::Sprite* sprite);
 
+
   bool textInit();
   //bool arrayInit();
 

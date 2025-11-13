@@ -54,6 +54,7 @@ void Game::update(float dt)
 				dragSprite(reject_button.getSprite());
 			}
 			accept_stamp.updateStamps(passport.getPosition());
+			reject_stamp.updateStamps(passport.getPosition());
 			break;
 		}
 		case GameState::PAUSE:
@@ -125,13 +126,38 @@ void Game::mouseButtonPressed(sf::Event event)
 }
 void Game::mouseButtonReleased(sf::Event event)
 {
+	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+	sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+
 	if (event.mouseButton.button == sf::Mouse::Left)
 	{
+		// checks to see if player was holding a passport with an answer above an animal when the 
+		// left mouse button was released
+		if (animal.getSprite()->getGlobalBounds().contains(mouse_positionf) 
+			&& (passport_accepted || passport_rejected))
+		{
+			checkCorrect();
+		}
+		if (passport.getSprite()->getGlobalBounds().contains(mouse_positionf) && accept_dragged)
+		{
+			passport_accepted = true;
+			accept_stamp.setVisible(true);
+		}
+		else if (passport.getSprite()->getGlobalBounds().contains(mouse_positionf) && reject_dragged)
+		{
+			passport_rejected = true;
+			reject_stamp.setVisible(true);
+		}
+			
+		// resets stamps if they were moved
+		if (accept_dragged || reject_dragged)
+		{
+			accept_dragged = false;
+			reject_dragged = false;
+			accept_button.acceptReset();
+			reject_button.rejectReset();
+		}
 		passport_dragged = false;
-		accept_dragged = false;
-		reject_dragged = false;
-		accept_button.acceptReset();
-		reject_button.rejectReset();
 	}
 	
 }
@@ -208,6 +234,8 @@ void Game::keyPressed(sf::Event event, float dt)
 
 void Game::newAnimal()
 {
+	accept_stamp.setVisible(false);
+	reject_stamp.setVisible(false);
 	passport_accepted = false;
 	passport_rejected = false;
 
@@ -234,11 +262,16 @@ void Game::checkCorrect()
 	{
 		cout << "CORRECT" << endl;
 	}
+	else if (should_accept == false && passport_rejected == true)
+	{
+		cout << "CORRECT" << endl;
+	}
 	else
 	{
 		cout << "FALSE remaining live: " << lives<<  endl;
 		lives -= 1;
 	}
+	newAnimal();
 }
 
 void Game::dragSprite(sf::Sprite* sprite)
@@ -252,6 +285,8 @@ void Game::dragSprite(sf::Sprite* sprite)
 		sprite->setPosition(drag_position.x, drag_position.y);
 	}
 }
+
+
 
 bool Game::textInit()
 {

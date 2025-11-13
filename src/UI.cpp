@@ -17,7 +17,11 @@ bool UI::aStampInit()
 
 bool UI::rStampInit()
 {
-	return initialiseSprite(reject_stamp_tex, "../data/Critter Crossing Customs/reject.png");
+	initialiseSprite(reject_stamp_tex, "../data/Critter Crossing Customs/reject.png");
+	centerOrigin();
+	setVisible(true);
+
+	return true;
 }
 
 void UI::updateStamps(sf::Vector2f passport_position)
