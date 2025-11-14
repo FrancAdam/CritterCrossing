@@ -152,11 +152,21 @@ void Game::mouseButtonReleased(sf::Event event)
 		}
 		if (passport.getSprite()->getGlobalBounds().contains(mouse_positionf) && accept_dragged)
 		{
+			if (passport_rejected)
+			{
+				reject_stamp.setVisible(false);
+				passport_rejected = false;
+			}
 			passport_accepted = true;
 			accept_stamp.setVisible(true);
 		}
 		else if (passport.getSprite()->getGlobalBounds().contains(mouse_positionf) && reject_dragged)
 		{
+			if (passport_accepted)
+			{
+				accept_stamp.setVisible(false);
+				passport_accepted = false;
+			}
 			passport_rejected = true;
 			reject_stamp.setVisible(true);
 		}

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Game.h"
-#define _CRTDBG_MAP_ALLOC
 
 
 int main()
@@ -67,7 +66,6 @@ int main()
     window.display();
   }
 
-  _CrtDumpMemoryLeaks();
   return 0;
 
 }
