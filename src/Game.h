@@ -2,6 +2,7 @@
 #define PLATFORMER_GAME_H
 #define MAX_LIVES 3
 
+
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 #include "Animal.h"
@@ -33,9 +34,8 @@ class Game
   void checkCorrect();
   void dragSprite(sf::Sprite* sprite);
   sf::Vector2f getMousePos();
+  void gameReset();
 
-
-  bool textInit();
   //bool arrayInit();
 
   GameState current_state;
@@ -46,32 +46,26 @@ class Game
   bool passport_accepted = false;
   bool passport_rejected = false;
   bool should_accept = false;
-  int lives = MAX_LIVES;
   bool passport_dragged = false;
   bool accept_dragged = false;
   bool reject_dragged = false;
+  int lives = MAX_LIVES;
+  int cases_solved = 0;
 
   sf::Vector2f drag_offset;
 
   UI background;
   UI accept_stamp;
   UI reject_stamp;
+  UI ui;
 
-  sf::RectangleShape overlay;
+
 
   Animal animal;
   Passport passport;
   Button reject_button;
   Button accept_button;
 
-  //sf::Sprite* dragged = nullptr;
-
-
-
-  sf::Font OSBold;
-  sf::Text cc_title;
-  sf::Text press_enter;
-  sf::Text paused;
 };
 
 #endif // PLATFORMER_GAME_H

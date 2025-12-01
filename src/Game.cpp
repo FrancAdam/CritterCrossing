@@ -18,13 +18,14 @@ Game::~Game()
 bool Game::init() // all init functions
 {
 	background.backgroundInit();
-	textInit();
 	animal.initAnimalTextures();
 	passport.initPassportTextures();
 	accept_button.acceptButton();
 	reject_button.rejectButton();
 	accept_stamp.aStampInit();
 	reject_stamp.rStampInit();
+
+	ui.textInit(window);
 
 	current_state = GameState::MENU;
 	return true;
@@ -53,8 +54,17 @@ void Game::update(float dt)
 			{
 				dragSprite(reject_button.getSprite());
 			}
+
 			accept_stamp.updateStamps(passport.getPosition());
 			reject_stamp.updateStamps(passport.getPosition());
+			ui.textUpdate(lives, cases_solved, window);
+
+			// win/lose condition
+			if (lives <= 0 || (cases_solved >= GOAL))
+			{
+				current_state = GameState::SCORE;
+			}
+
 			break;
 		}
 		case GameState::PAUSE:
@@ -70,8 +80,7 @@ void Game::render()
 	{
 		case GameState::MENU:
 		{
-			window.draw(cc_title);
-			window.draw(press_enter);
+			ui.renderMenu(window);
 			break;
 		}
 		case GameState::INGAME:
@@ -85,6 +94,7 @@ void Game::render()
 			reject_button.render(window);
 			accept_button.render(window);
 
+			ui.renderGame(window);
 			break;
 		}
 		case GameState::PAUSE:
@@ -96,12 +106,14 @@ void Game::render()
 			reject_button.render(window);
 			accept_stamp.render(window);
 			reject_stamp.render(window);
-			window.draw(overlay);
-			window.draw(paused);
+
+			ui.renderPause(window);
+
 			break;
 		}
 		case GameState::SCORE:
 		{
+			ui.renderScore(window);
 			break;
 		}
 	}
@@ -207,7 +219,7 @@ void Game::keyPressed(sf::Event event, float dt)
 	// escape key functionality
 	if (event.key.code == sf::Keyboard::Escape)
 	{
-		cout << "ran" << endl;
+		//cout << "ran" << endl;
 		switch (current_state)
 		{
 			case GameState::MENU:
@@ -225,6 +237,9 @@ void Game::keyPressed(sf::Event event, float dt)
 				current_state = GameState::INGAME;
 				break;
 			}
+			case GameState::SCORE:
+				current_state = GameState::MENU;
+				break;
 			}
 	}
 
@@ -235,10 +250,7 @@ void Game::keyPressed(sf::Event event, float dt)
 		if (event.key.code == sf::Keyboard::Enter)
 		{
 			current_state = GameState::INGAME;
-			newAnimal();
-			lives = MAX_LIVES; //consider adding gameReset() function
-
-
+			gameReset();
 		}
 		break;
 	}
@@ -247,21 +259,26 @@ void Game::keyPressed(sf::Event event, float dt)
 		if (event.key.code == sf::Keyboard::C)
 		{
 			newAnimal();
-			cout << "ran newAnimal()" << endl;
 		}
 		if (event.key.code == sf::Keyboard::P)
 		{
 			checkCorrect();
 		}
-		if (event.key.code == sf::Keyboard::O)
-		{
-			accept_stamp.setVisible(true);
-		}
+
 		break;
 	}
 	case GameState::PAUSE:
 	{
 		
+		break;
+	}
+	case GameState::SCORE:
+	{
+		if (event.key.code == sf::Keyboard::Enter)
+		{
+			current_state = GameState::INGAME;
+			gameReset();
+		}
 		break;
 	}
 	}
@@ -296,20 +313,19 @@ void Game::checkCorrect()
 	if (should_accept == true && passport_accepted == true)
 	{
 		cout << "CORRECT" << endl;
+		cases_solved += 1;
 	}
 	else if (should_accept == false && passport_rejected == true)
 	{
 		cout << "CORRECT" << endl;
+		cases_solved += 1;
 	}
 	else
 	{
 		cout << "FALSE remaining live: " << lives<<  endl;
 		lives -= 1;
 	}
-	if (lives <= 0)
-	{
-		current_state = GameState::SCORE;
-	}
+
 	newAnimal();
 }
 
@@ -336,44 +352,13 @@ sf::Vector2f Game::getMousePos()
 	return window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }
 
-
-bool Game::textInit()
+void Game::gameReset()
 {
-	if (!OSBold.loadFromFile("../Data/Fonts/OpenSans-Bold.ttf"))
-	{
-		std::cerr << "Failed to load font file\n";
-		return false;
-	}
-
-	cc_title.setFont(OSBold);
-	cc_title.setString("Critters Crossing");
-	cc_title.setCharacterSize(65);
-	cc_title.setFillColor(sf::Color::Blue);
-	cc_title.setOutlineColor(sf::Color::White);
-	cc_title.setPosition(
-		window.getSize().x / 2 - cc_title.getGlobalBounds().width / 2,
-		150);
-
-	press_enter.setFont(OSBold);
-	press_enter.setString("Press 'Enter' to start the game:");
-	press_enter.setCharacterSize(40);
-	press_enter.setFillColor(sf::Color::White);
-	press_enter.setPosition(
-		window.getSize().x / 2 - press_enter.getGlobalBounds().width / 2, 275);
-
-
-	paused.setFont(OSBold);
-	paused.setString("The Game is Paused");
-	paused.setCharacterSize(50);
-	paused.setFillColor(sf::Color::Cyan);
-	paused.setPosition(
-		window.getSize().x / 2 - paused.getGlobalBounds().width / 2, 150);
-
-	overlay.setSize(sf::Vector2f(window.getSize()));
-	overlay.setFillColor(sf::Color(100, 100, 100, 150));
-
-	return true;
+	lives = MAX_LIVES;
+	cases_solved = 0;
+	newAnimal();
 }
+
 
 
 
