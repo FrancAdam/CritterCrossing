@@ -112,8 +112,9 @@ void Game::mouseButtonPressed(sf::Event event)
 	if (event.mouseButton.button == sf::Mouse::Left)
 	{
 		//get the click position
-		sf::Vector2i click = sf::Mouse::getPosition(window);
-		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);
+		/*sf::Vector2i click = sf::Mouse::getPosition(window);
+		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);*/
+		sf::Vector2f clickf = getMousePos();
 
 		if (passport.getSprite()->getGlobalBounds().contains(clickf))
 		{
@@ -138,8 +139,9 @@ void Game::mouseButtonPressed(sf::Event event)
 }
 void Game::mouseButtonReleased(sf::Event event)
 {
-	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
-	sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+	//sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+	//sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+	sf::Vector2f mouse_positionf = getMousePos();
 
 	if (event.mouseButton.button == sf::Mouse::Left)
 	{
@@ -304,14 +306,24 @@ void Game::dragSprite(sf::Sprite* sprite)
 {
 	if (sprite != nullptr)
 	{
-		sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
-		sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+		//sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+		//sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+
+		//mouse_positionf = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+		sf::Vector2f mouse_positionf = getMousePos();
 
 		sf::Vector2f drag_position = mouse_positionf + drag_offset; // dragoffset? / or center all origins
 		sprite->setPosition(drag_position.x, drag_position.y);
 	}
 }
 
+sf::Vector2f Game::getMousePos()
+{
+	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+	sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+
+	return window.mapPixelToCoords(sf::Mouse::getPosition(window));
+}
 
 
 bool Game::textInit()

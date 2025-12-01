@@ -32,6 +32,7 @@ class Game
   void newAnimal();
   void checkCorrect();
   void dragSprite(sf::Sprite* sprite);
+  sf::Vector2f getMousePos();
 
 
   bool textInit();
