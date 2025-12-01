@@ -80,10 +80,10 @@ void Game::render()
 			background.render(window);
 			animal.render(window);
 			passport.render(window);
-			accept_button.render(window);
-			reject_button.render(window);
 			accept_stamp.render(window);
 			reject_stamp.render(window);
+			reject_button.render(window);
+			accept_button.render(window);
 
 			break;
 		}
@@ -112,23 +112,35 @@ void Game::mouseButtonPressed(sf::Event event)
 	if (event.mouseButton.button == sf::Mouse::Left)
 	{
 		//get the click position
-		/*sf::Vector2i click = sf::Mouse::getPosition(window);
-		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);*/
 		sf::Vector2f clickf = getMousePos();
 
-		if (passport.getSprite()->getGlobalBounds().contains(clickf))
+		// assigning a sprite to the dragging logic based on what gets clicked
+		if (accept_button.getBounds().contains(clickf))
 		{
-			drag_offset = passport.getSprite()->getPosition() - clickf;
-			passport_dragged = true;
-		}
-		if (accept_button.getSprite()->getGlobalBounds().contains(clickf))
-		{
-			drag_offset = accept_button.getSprite()->getPosition() - clickf;
+			drag_offset = accept_button.getPos() - clickf;
 			accept_dragged = true;
 		}
-		if (reject_button.getSprite()->getGlobalBounds().contains(clickf))
+		else if (reject_button.getBounds().contains(clickf))
 		{
-			drag_offset = reject_button.getSprite()->getPosition() - clickf;
+			drag_offset = reject_button.getPos() - clickf;
+			reject_dragged = true;
+		}
+		else if (passport.getBounds().contains(clickf))
+		{
+			drag_offset = passport.getPos() - clickf;
+			passport_dragged = true;
+		}
+		// accounting for clicking on overlapping objects
+		else if (accept_button.getBounds().contains(clickf) &&
+			passport.getBounds().contains(clickf))
+		{
+			passport_dragged = false;
+			accept_dragged = true;
+		}
+		else if (reject_button.getBounds().contains(clickf) &&
+			passport.getBounds().contains(clickf))
+		{
+			passport_dragged = false;
 			reject_dragged = true;
 		}
 
@@ -139,20 +151,19 @@ void Game::mouseButtonPressed(sf::Event event)
 }
 void Game::mouseButtonReleased(sf::Event event)
 {
-	//sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
-	//sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+	// gets mouse position in relation to screen size
 	sf::Vector2f mouse_positionf = getMousePos();
 
 	if (event.mouseButton.button == sf::Mouse::Left)
 	{
 		// checks to see if player was holding a passport with an answer above an animal when the 
 		// left mouse button was released
-		if (animal.getSprite()->getGlobalBounds().contains(mouse_positionf) 
+		if (animal.getBounds().contains(mouse_positionf) 
 			&& (passport_accepted || passport_rejected))
 		{
 			checkCorrect();
 		}
-		if (passport.getSprite()->getGlobalBounds().contains(mouse_positionf) && accept_dragged)
+		if (passport.getBounds().contains(mouse_positionf) && accept_dragged)
 		{
 			if (passport_rejected)
 			{
@@ -162,7 +173,7 @@ void Game::mouseButtonReleased(sf::Event event)
 			passport_accepted = true;
 			accept_stamp.setVisible(true);
 		}
-		else if (passport.getSprite()->getGlobalBounds().contains(mouse_positionf) && reject_dragged)
+		else if (passport.getBounds().contains(mouse_positionf) && reject_dragged)
 		{
 			if (passport_accepted)
 			{

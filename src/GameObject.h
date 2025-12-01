@@ -23,6 +23,9 @@ public:
     void setVisible(bool visibility);
     bool getVisible();
 
+    sf::FloatRect getBounds();
+    sf::Vector2f getPos();
+
 
     int getRandInt(int min, int max);
 

@@ -80,6 +80,16 @@ bool GameObject::getVisible()
 }
 
 
+sf::FloatRect GameObject::getBounds()
+{
+    return this->getSprite()->getGlobalBounds();
+}
+
+sf::Vector2f GameObject::getPos()
+{
+    return this->getSprite()->getPosition();
+}
+
 // number rnadomiser
 int GameObject::getRandInt(int min, int max)
 {

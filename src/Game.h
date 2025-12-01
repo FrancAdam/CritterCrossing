@@ -43,9 +43,9 @@ class Game
  private:
   sf::RenderWindow& window;
 
-  bool passport_accepted;
-  bool passport_rejected;
-  bool should_accept;
+  bool passport_accepted = false;
+  bool passport_rejected = false;
+  bool should_accept = false;
   int lives = MAX_LIVES;
   bool passport_dragged = false;
   bool accept_dragged = false;
