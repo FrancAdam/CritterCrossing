@@ -292,7 +292,20 @@ void Game::newAnimal()
 	passport_rejected = false;
 
 	int animal_index = animal.getRandInt(0, animal.getAnimalSize() - 1);
-	int passport_index = passport.getRandInt(0, passport.getPassportSize() - 1);
+	int passport_index = animal_index;
+
+	if (passport.getRandInt(0, 100) > CHANCE) // 50% chance to occur
+	{
+		cout << "ran" << endl; // doesn't change anything if it does, indexes are the same
+	}
+	else
+	{
+		while (passport_index == animal_index) // if the if statement above doesn't run, this will change 
+											  // the index until it is different than the animal index
+		{
+			passport_index = passport.getRandInt(0, passport.getPassportSize() - 1);
+		}
+	}
 
 	if (animal_index == passport_index)
 	{

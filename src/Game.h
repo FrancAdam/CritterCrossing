@@ -1,7 +1,7 @@
 #ifndef PLATFORMER_GAME_H
 #define PLATFORMER_GAME_H
 #define MAX_LIVES 3
-
+#define CHANCE 50
 
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
