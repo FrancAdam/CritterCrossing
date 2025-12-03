@@ -69,7 +69,7 @@ bool UI::textInit(sf::RenderWindow& window)
 	cases.setFont(OSBold);
 	cases.setCharacterSize(30);
 	cases.setFillColor(sf::Color::Black);
-	cases.setPosition(834, 40);
+	cases.setPosition(790, 40);
 
 	score_text.setFont(OSBold);
 	score_text.setCharacterSize(65);
@@ -86,9 +86,7 @@ bool UI::textInit(sf::RenderWindow& window)
 	instruction.setString("Press 'Enter' to play again or 'Escape' to go back to the main menu");
 	instruction.setFillColor(sf::Color::White);
 	instruction.setOutlineColor(sf::Color::Black);
-	instruction.setPosition(
-		window.getSize().x / 2 - instruction.getGlobalBounds().width / 2,
-		430);
+
 
 
 
@@ -126,7 +124,10 @@ void UI::renderScore(sf::RenderWindow& window)
 void UI::textUpdate(int current_lives, int current_cases, sf::RenderWindow& window)
 {
 	lives.setString("Lives: " + std::to_string(current_lives));
-	cases.setString("Cases solved: " + std::to_string(current_cases));
+	cases.setString("Cases solved: " + std::to_string(current_cases) + "/" + std::to_string(GOAL));
+	instruction.setPosition(
+		window.getSize().x / 2 - instruction.getGlobalBounds().width / 2,
+		430);
 
 	if (current_lives > 0)
 	{
