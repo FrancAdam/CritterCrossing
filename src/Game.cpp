@@ -256,11 +256,11 @@ void Game::keyPressed(sf::Event event, float dt)
 	}
 	case GameState::INGAME:
 	{
-		if (event.key.code == sf::Keyboard::C)
+		if (event.key.code == sf::Keyboard::C) // just used for debugging
 		{
 			newAnimal();
 		}
-		if (event.key.code == sf::Keyboard::P)
+		if (event.key.code == sf::Keyboard::P) // just used for debugging
 		{
 			checkCorrect();
 		}
@@ -294,6 +294,8 @@ void Game::newAnimal()
 	int animal_index = animal.getRandInt(0, animal.getAnimalSize() - 1);
 	int passport_index = animal_index;
 
+	// Get a 50% chance of the animal and passport being different, otherwise game would take long 
+	// to complete
 	if (passport.getRandInt(0, 100) > CHANCE) // 50% chance to occur
 	{
 		cout << "ran" << endl; // doesn't change anything if it does, indexes are the same
@@ -321,7 +323,7 @@ void Game::newAnimal()
 	passport.changePassport(passport_index);
 }
 
-void Game::checkCorrect()
+void Game::checkCorrect() // win/loss logic for each round
 {
 	if (should_accept == true && passport_accepted == true)
 	{
@@ -346,8 +348,6 @@ void Game::dragSprite(sf::Sprite* sprite)
 {
 	if (sprite != nullptr)
 	{
-		//sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
-		//sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
 
 		//mouse_positionf = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 		sf::Vector2f mouse_positionf = getMousePos();
@@ -357,7 +357,7 @@ void Game::dragSprite(sf::Sprite* sprite)
 	}
 }
 
-sf::Vector2f Game::getMousePos()
+sf::Vector2f Game::getMousePos() // works even when window resized
 {
 	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
 	sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);

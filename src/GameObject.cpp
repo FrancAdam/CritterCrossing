@@ -105,21 +105,3 @@ void GameObject::coutVector(std::vector<string>& vector)
 }
 
 
-//bool GameObject::checkCollision(GameObject& other)
-//{
-//    if (!sprite || !other.sprite || !other.getVisible())
-//        return false;
-//
-//    // bounds
-//    sf::FloatRect Bounds1 = sprite->getGlobalBounds();
-//    sf::FloatRect Bounds2 = other.sprite->getGlobalBounds();
-//
-//    // overlap check
-//    bool overlapX = (Bounds1.left < Bounds2.left + Bounds2.width) &&
-//        (Bounds1.left + Bounds1.width > Bounds2.left);
-//
-//    bool overlapY = (Bounds1.top < Bounds2.top + Bounds2.height) &&
-//        (Bounds1.top + Bounds1.height > Bounds2.top);
-//
-//    return overlapX && overlapY; // True if both X and Y overlap
-//}
